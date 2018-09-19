@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ko">
+	<head>
+	<meta charset="UTF-8">
+	<title> XML 데이터 가져오기 </title>
+</head>
+<body>
+    <ul id="dogList"></ul>
+    <script>
+            var request = new XMLHttpRequest();
+            request.open('GET', './data.xml', true);
+            request.onreadystatechange = function(event){
+                if(request.readyState == 4){
+                    if(request.status == 200){
+                        var dogList = document.getElementById('dogList');
+                        var xml = request.responseXML;
+                        var names = xml.getElementsByTagName('name');
+                        var ages = xml.getElementsByTagName('age');
+                        var output ='';
+                        for(var i = 0; i < names.length; i++){
+                            var name = names[i].childNodes[0].nodeValue;
+                            var age = ages[i].childNodes[0].nodeValue;
+                            output += '<li>name : '+name+', age : '+age+'</li>'
+                        }
+                        dogList.innerHTML = output;
+                    }
+                }
+            }
+            request.send();
+    </script>
+</body>
+</html>

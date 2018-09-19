@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dogs>
+    <dog>
+        <name>로미</name>
+        <family>시바</family>
+        <age>2</age>
+        <weight>3.9</weight>
+    </dog>
+    <dog>
+        <name>두부</name>
+        <family>스피치</family>
+        <age>3</age>
+        <weight>3.5</weight>
+    </dog>
+    <dog>
+        <name>까미</name>
+        <family>미니핀</family>
+        <age>7</age>
+        <weight>2.8</weight>
+    </dog>
+</dogs>

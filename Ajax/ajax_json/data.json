@@ -1,0 +1,5 @@
+{dog: [
+    {name: "로미", family: "시바", age: 2, weight: 3.9},
+    {name: "두부", family: "스피치", age: 3, weight: 3.5},
+    {name: "까미", family: "미니핀", age: 7, weight: 2.8}
+]}
