@@ -193,7 +193,7 @@ object.detachEvent(`event`, `listener`)
 
 + 익명함수를 이용하여 이벤트를 제거할 수 없다. 이벤트를 제거할 때 사용하는 detachEvent() 메서드는 어떤 이벤트 리스너를 제거할지 명확하게 알려주어야 하기 때문이다.
 
-+ 인터넷 익스플로러 이벤트 모델은 캡쳐링(`useCapture`)을 지원하지 않는다.
++ 인터넷 익스플로러 이벤트 모델은 캡쳐링(`useCapture`)을 지원하지 않는다. 
 
 #### - 표준 이벤트 모델 (모던 브라우저 + IE9부터 지원)
 
@@ -201,37 +201,32 @@ W3C에서 공식적으로 지정한 DOM Level 2 모델<br>
 
 이벤트 캡쳐링 지원한다.(`useCapture`)<br>
 
-이벤트 사용을 위해 <u>EventTarget</u> 객체를 사용한다.<br>
+이벤트 사용을 위해 EventTarget을 사용한다.
 
-> <u>EventTarget</u>은 이벤트들을 받을 수 있고, 이벤트를 위한 이벤트 리스너를 가질 수 있는 객체에 의해 구현된 인터페이스 도구이다.
-> Element, document, window는 가장 일반적인 <u>이벤트 타겟</u>이다.
-> XHR이나 AudioNode, AudioContext 그 외의 다른 객체들도 <u>이벤트 타겟</u>이 될 수 있다.
+> EventTarget은 이벤트들을 받을 수 있고, 이벤트를 위한 이벤트 리스너를 가질 수 있는 객체에 의해 구현된 인터페이스 도구이다.
+> Element, document, window는 가장 일반적인 이벤트 타겟이다.
+> XHR이나 AudioNode, AudioContext 그 외의 다른 객체들도 이벤트 타겟이 될 수 있다.
 
-<u>EventTarget</u> 객체는 세가지 메서드를 지원한다.
+EventTarget 객체는 세가지 메서드를 지원한다.
 
-+ <u>EventTarget</u>.addEventListener(`type`, `listener`[, `options`])
++ EventTarget.addEventListener(`type`, `listener`[, `options`])
 
-  지정한 이벤트(type)가 <u>이벤트 타겟</u>에 전달될 때 마다 호출될 함수(listener)를 설정한다.
+  지정한 이벤트(type)가 타겟에 전달될 때 마다 호출될 함수(listener)를 설정한다.
 
   * `type` => listen할 이벤트 타입을 string으로 나타낸다. click, keydown, error 등
   * `listener` => 지정된 이벤트가 발생했을 때, 함수(listener)를 호출한다. listener는 EventListener 
   * `options` => 이벤트 리스너에 대한 특성을 지정하는 옵션 객체
-    사용 가능한 옵션은 capture, once, passive 그리고 mozSystemGroup가 있다.
-    * capture => DOM <u>**트리의 하단에 있는**</u> EventTarget으로 전송하기 전에, 등록된 listener로 이 타입의 이벤트의 전송여부를 나타내는 Boolean 이다. 트리를 통해 <u>위쪽으로</u> 버블링되는 이벤트는  캡처를 사용하도록 하고, 지정된 listener를 트리거하지 않는다. 빈값이면 기본값은 `false`이다.
-    * once => 리스너를 추가 후 최대 한번은 적용해야 한다는 것을 표시하는 Boolean이다. true일 경우, 적용될 때 listener가 자동으로 삭제된다.
-    * passive => true일 경우, listener에서 지정한 함수가 preventDefault()를 호출하지 않음을 나타내는 Boolean이다. passive listener가 preventDefault()를 호출하면, user agent는 콘솔 경고를 생성하는 것 외의 작업은 수행하지 않는다.
-    * mozSystemGroup => 시스템 그룹에 listener를 추가해야 한다는 것을 표시하는 Boolean이다. XBL이나 FF 브라우저의 크롬 브라우저에서만 사용 가능하다.
+    * useCapture => DOM <u>**트리의 하단에 있는**</u> EventTarget으로 전송하기 전에, 등록된 listener로 이 타입의 이벤트의 전송여부를 나타내는 Boolean 이다. 트리에서 <u>위쪽으로</u> 버블링되는 이벤트는 캡처를 사용하도록 하고, 지정된 listener를 트리거하지 않는다. 
+    * once => 리스너를 추가한 후 한 번 이상 은 호출해야 함을 나타내느 Boolean이다. true이면 호출할 때 listener가 자동으로 삭제된다.
+    * passive => true일 경우 listener에서 지정한 함수가 preventDefault()를 호출하지 않음을 나타내느 Boolean이다. passive listener가 preventDefault()를 호출하면 user agent는 콘솔 경고를 생성하는 것 외의 작업은 수행하지 않는다.
 
-+ <u>EventTarget</u>.removeEventListener(`type`, `listener`[, `options`])
++ EventTarget.removeEventListener(`type`, `listener`[, `options`])
   EventTarget.addEventListener()로 등록된 이벤트 리스너를 EventTarget에서 제거하는 메서드이다. 제거할 이벤트 리스너는 이벤트 타입, 이벤트 리스너 기능 자체, 일치하는 과정에 영향을 줄 수 있는 다양한 옵션들을 복합적으로 식별한다.
 
   * type => 제거할 이벤트 타입을 string으로 나타낸다. click, keydown, error 등
-  * listener => <u>이벤트 타겟</u>에서 제거할 이벤트 핸들러의 EventListener 함수를 지정한다.
-  * options => 이벤트 리스너에 대한 특성을 지정하는 옵션 객체
-    사용 가능한 옵션은 capture와 mozSystemGroup가 있다.
-    * capture => 제거될 이벤트 리스너가 캡쳐링 이벤트 리스너인지 아닌지 지정한다. 매개변수가 없을 경우, 기본값은 false이다. 리스너가 한번은 캡쳐를 사용하고, 한번은 캡쳐를 사용하지 않도록 이벤트가 두번 등록되어 있으면, 각각 따로 제거해야 한다. 캡쳐링 리스너를 제거하면, 같은 리스터의 non-capturing 버전에 영향을 끼치지 않는다. 반대의 경우도 마찬가지이다.
+  * listener => 
 
-+ <u>EventTarget</u>.dispatchEvent
++ EventTarget.dispatchEvent
 
 전달된 이벤트에 대한 참조이다. 이벤트를 받고 그 이벤트 수신기(listener)를 가질 수 있는 객체에 의해 구현된 인터페이스이다.
 
@@ -257,9 +252,9 @@ ie9 이하 버전에서는 event.returnValue를 false로 해야 한다.
 
 
 
-##### EventListener
 
-EventListener 인터페이스는 EventTarget 객체에 의해 전파된 이벤트를 처리할 수 있는 객체를 나타낸다.
 
-https://developer.mozilla.org/en-US/docs/Web/API/EventListener
+
+
+
 
