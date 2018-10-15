@@ -157,14 +157,6 @@ myBtn.onclick = function(event) { alert('클릭'); }
     </script>
     ````
 
-#### - 이벤트 객체와 이벤트 발생 객체
-
-추후 추가 예정입니다.
-
-#### - 이벤트 강제 실행
-
-추후 추가 예정입니다.
-
 ### DOM Level 2
 
 메서드를 이용해서 이벤트를 연결하거나 제거하는 방법<br>
@@ -201,6 +193,8 @@ W3C에서 공식적으로 지정한 DOM Level 2 모델<br>
 
 이벤트 캡쳐링 지원한다.(`useCapture`)<br>
 
+EventListener 인터페이스는 <u>EventTarget</u> 객체에 의해 전파된 이벤트를 처리할 수 있는 객체를 나타낸다.<br>
+
 이벤트 사용을 위해 <u>EventTarget</u> 객체를 사용한다.<br>
 
 > <u>EventTarget</u>은 이벤트들을 받을 수 있고, 이벤트를 위한 이벤트 리스너를 가질 수 있는 객체에 의해 구현된 인터페이스 도구이다.
@@ -211,7 +205,7 @@ W3C에서 공식적으로 지정한 DOM Level 2 모델<br>
 
 + <u>EventTarget</u>.addEventListener(`type`, `listener`[, `options`])
 
-  지정한 이벤트(type)가 <u>이벤트 타겟</u>에 전달될 때 마다 호출될 함수(listener)를 설정한다.
+  <u>이벤트 타겟</u>에 지정한 이벤트(type)의 이벤트 핸들러(listener)를 등록한다.
 
   * `type` => listen할 이벤트 타입을 string으로 나타낸다. click, keydown, error 등
   * `listener` => 지정된 이벤트가 발생했을 때, 함수(listener)를 호출한다. listener는 EventListener 
@@ -232,34 +226,37 @@ W3C에서 공식적으로 지정한 DOM Level 2 모델<br>
     * capture => 제거될 이벤트 리스너가 캡쳐링 이벤트 리스너인지 아닌지 지정한다. 매개변수가 없을 경우, 기본값은 false이다. 리스너가 한번은 캡쳐를 사용하고, 한번은 캡쳐를 사용하지 않도록 이벤트가 두번 등록되어 있으면, 각각 따로 제거해야 한다. 캡쳐링 리스너를 제거하면, 같은 리스터의 non-capturing 버전에 영향을 끼치지 않는다. 반대의 경우도 마찬가지이다.
 
 + <u>EventTarget</u>.dispatchEvent
+  지정된 EventTarget에서 이벤트를 취소하고, 영향을 받는 EventListener를 적절한 순서로 (동기적으로) 호출합니다.
 
-전달된 이벤트에 대한 참조이다. 이벤트를 받고 그 이벤트 수신기(listener)를 가질 수 있는 객체에 의해 구현된 인터페이스이다.
+## 이벤트 전파
 
-#### - 디폴트 이벤트 제거
-
-Event.preventDefault
-
-Event.returnValue
-
-ie9 이하 버전에서는 event.returnValue를 false로 해야 한다. 
-
-## 이벤트 전파 방법
-
-엘리먼트가 해당 이벤트에 대한 핸들(함수)를 등록한 경우, 다른 요소 내에 중첩된 요오에서 발생하는 이벤트를 전파하는 방법
+엘리먼트가 해당 이벤트에 대한 핸들(함수)를 등록한 경우, 다른 요소 내에 중첩된 요소에서 발생하는 이벤트를 전파하는 방법
 
 ### 이벤트 버블링
 
+특정 요소에서 이벤트가 발생했을 때 target의 부모 요소에서 최상위 요소인 Wiondow까지 이벤트가 전파되어 가는 것
+
+#### 이벤트 위임
+
+동적으로 추가된 요소에 추가로 이벤트 리스너를 연결하기 보단, 버블링된 상위 노드에 이벤트 리스너를 연결하여 해당 요소의 하위 노드까지 제어할 수 있게하는 기법
+
 ### 이벤트 캡쳐링
 
+특정 요소에서 이벤트가 발생했을 때 최상위 요소인 Wiondow에서 target의 부모 요소까지 이벤트가 전파되어 가는 것으로, addEventListener() API에서 옵션 객체에 capture:true를 설정해주면 된다.
 
+[이벤트 전파]: https://joshua1988.github.io/web-development/javascript/event-propagation-delegation/
+[이벤트 전파]: https://www.w3.org/TR/DOM-Level-3-Events/#dom-event-architecture
 
+### 이벤트 전파를 중단하는 방법
 
+#### event.preventDefault()
 
+preventDefault() 메서드는 이벤트가 정확하게 처리되지 않으면 기본 동작을 실행하지 않는다. 이벤트 전파는 stopPropagation()이나 stopImmedeatePropagtion() 둘 중 하나가 호출될 때까지 계속 된다.
 
+#### event.stopPropagation()
 
-##### EventListener
+event.stopPropagation()은  버블링이나 캡쳐링 단계에서 현재 이벤트의 전파를 막는다.
 
-EventListener 인터페이스는 EventTarget 객체에 의해 전파된 이벤트를 처리할 수 있는 객체를 나타낸다.
+#### event.stopImmedeatePropagtion()
 
-https://developer.mozilla.org/en-US/docs/Web/API/EventListener
-
+하나의 이벤트에 여러개의 리스너가 연결되어있을 경우, 다른 리스너들까지 모두 호출되는 것을 막는다.
